@@ -1,0 +1,43 @@
+env:
+  browser: true
+  node: true
+  es6: true
+
+plugins:
+- es-beautifier
+- angular
+
+extends: 
+- eslint:recommended
+- google
+- plugin:angular/johnpapa
+
+globals:
+  angular: true
+
+rules:
+  indent:
+  - error
+  - 2
+  - MemberExpression: off
+  max-len:
+  - error
+  - code: 120
+    comments: 80
+  semi:
+  - error
+  - always
+  valid-jsdoc:
+  - error
+  - requireReturnDescription: false
+  strict:
+  - error
+  no-console:
+  - off
+
+  # angular.js
+  angular/file-name:
+  - error
+  - typeSeparator: dot
+  angular/controller-name:
+  - off

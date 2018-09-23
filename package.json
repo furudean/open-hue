@@ -1,0 +1,54 @@
+{
+  "name": "gradient-game",
+  "version": "0.0.1",
+  "description": "Clone of 'I Love Hue', built in angular.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/gulp serve",
+    "lint": "node_modules/.bin/eslint .",
+    "beautify": "node_modules/.bin/eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/c-bandy/gradient-game.git"
+  },
+  "keywords": [
+    "angular.js",
+    "game",
+    "i love hue"
+  ],
+  "author": "Cassidy Bandy",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/c-bandy/gradient-game/issues"
+  },
+  "homepage": "https://github.com/c-bandy/gradient-game#readme",
+  "dependencies": {
+    "angular": "^1.7.4",
+    "angular-ui-router": "^1.0.20"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "browser-sync": "^2.24.7",
+    "del": "^3.0.0",
+    "delete-empty": "^2.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-google": "^0.10.0",
+    "eslint-plugin-angular": "^3.3.0",
+    "eslint-plugin-es-beautifier": "^1.0.1",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-angular-filesort": "^1.2.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-inject": "^4.3.2",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-terser": "^1.1.5",
+    "uglify-save-license": "^0.4.1"
+  }
+}
