@@ -151,11 +151,12 @@ const styles = {
       .pipe(sourcemaps.init())
       .pipe(sass({ // sass -> css
         includePaths: ['node_modules'],
+        precision: 8,
       }))
       .pipe(concat('style.css')) // put everything in one file
       .pipe(autoprefixer()) // add vendor prefixes
       .pipe(cssnano()) // minify
-      .pipe(sourcemaps.write('./'))
+      .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(paths.dist));
   },
   dev: () => {
@@ -180,7 +181,7 @@ const styles = {
         precision: 8,
       }))
       .pipe(concat('style.css'))
-      .pipe(sourcemaps.write('./'))
+      .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(paths.dist))
       .pipe(bs.stream()); // let browsersync know that we updated the styles
   },
@@ -250,6 +251,5 @@ module.exports = {
   'build:dev': build.dev,
   'build:prod': build.prod,
   'start-server': startServer,
-  'scripts': scripts.dev,
   'default': serve,
 };
