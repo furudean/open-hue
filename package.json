@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/.bin/gulp serve",
-    "lint": "node_modules/.bin/eslint .",
-    "beautify": "node_modules/.bin/eslint --fix ."
+    "lint:eslint": "node_modules/.bin/eslint .",
+    "lint:stylelint": "node_modules/.bin/stylelint \"**/*.scss\" --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
@@ -49,6 +49,9 @@
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-terser": "^1.1.5",
+    "stylelint": "^9.5.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.3.0",
     "uglify-save-license": "^0.4.1"
   }
 }
