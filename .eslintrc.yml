@@ -32,7 +32,10 @@ rules:
   - requireReturnDescription: false
   strict:
   - error
-  no-console:
+  - global
+  no-invalid-this:
+  - off
+  require-jsdoc:
   - off
 
   # angular.js

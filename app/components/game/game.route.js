@@ -5,6 +5,6 @@ angular.module('game')
     $stateProvider.state('game', {
       url: '/game',
       controller: 'game as ctrl',
-      templateUrl: 'views/game/game.html',
+      templateUrl: 'components/game/game.html',
     });
   });
