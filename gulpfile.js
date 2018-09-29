@@ -15,7 +15,7 @@ const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const saveLicense = require('uglify-save-license');
 const sourcemaps = require('gulp-sourcemaps');
-const terser = require('gulp-terser');
+const uglify = require('gulp-uglify');
 
 const paths = {
   app: 'app/',
@@ -107,7 +107,7 @@ const scripts = {
       presets: ['@babel/env'], // use preset environment
     }))
     .pipe(concat('scripts.js')) // concat into one file
-    .pipe(terser({mangle: false})) // minify
+    .pipe(uglify({mangle: false})) // minify
     .pipe(sourcemaps.write('.')) // write sourcemap files
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.scripts)
@@ -195,7 +195,7 @@ const vendorScripts = {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(concat('vendors.js'))
-    .pipe(terser({
+    .pipe(uglify({
       mangle: false,
       output: {
         comments: saveLicense, // keep vendor licenses
