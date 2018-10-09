@@ -60,7 +60,7 @@ function reloadServer(done) {
  * @returns {void}
  */
 function notifyServer(done) {
-  bs.notify('Compiling, please wait!');
+  bs.notify('Compiling, please wait!', 10 * 1000);
   done();
 }
 
