@@ -25,7 +25,6 @@ rules:
   max-len:
   - error
   - code: 120
-    comments: 80
   semi:
   - error
   - always
