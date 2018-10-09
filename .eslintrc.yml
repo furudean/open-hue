@@ -32,9 +32,6 @@ rules:
   valid-jsdoc:
   - error
   - requireReturnDescription: false
-  strict:
-  - error
-  - global
   no-invalid-this:
   - off
   require-jsdoc:
