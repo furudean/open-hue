@@ -37,6 +37,9 @@ rules:
   - off
   require-jsdoc:
   - off
+  no-unused-vars:
+  - error
+  - args: all
 
   # angular.js
   angular/file-name:
