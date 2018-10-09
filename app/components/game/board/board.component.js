@@ -1,12 +1,14 @@
-function tileController($log, board) {
+function boardController($log, board, map) {
   const vm = this;
 
-  vm.board = board.new(4, 6);
+  const level = map.getLevel(0);
+
+  vm.board = board.deseralize(level);
   $log.debug(vm.board);
 }
 
 angular.module('game')
   .component('board', {
     templateUrl: 'components/game/board/board.html',
-    controller: tileController,
+    controller: boardController,
   });

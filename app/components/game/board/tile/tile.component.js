@@ -1,4 +1,4 @@
-function tileController($log) {
+function tileController() {
   const vm = this;
 }
 
@@ -7,7 +7,6 @@ angular.module('game')
     bindings: {
       color: '<',
     },
-    replace: true,
     templateUrl: 'components/game/board/tile/tile.html',
     controller: tileController,
   });
