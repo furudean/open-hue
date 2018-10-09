@@ -1,5 +1,3 @@
-'use strict';
-
 const angularFilesort = require('gulp-angular-filesort');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
@@ -101,22 +99,18 @@ const html = {
 const scripts = {
   prod: () => gulp.src(paths.scripts)
     .pipe(plumber())
-    .pipe(angularFilesort()) // sort files into an order angular "likes"
     .pipe(sourcemaps.init()) // enable sourcemaps
-    .pipe(babel({ // transpile using babel
-      presets: ['@babel/env'], // use preset environment
-    }))
+    .pipe(babel()) // transpile using babel
+    .pipe(angularFilesort()) // sort files into an order angular "likes"
     .pipe(concat('scripts.js')) // concat into one file
     .pipe(uglify({mangle: false})) // minify
     .pipe(sourcemaps.write('.')) // write sourcemap files
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.scripts)
     .pipe(plumber())
-    .pipe(angularFilesort())
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['@babel/env'],
-    }))
+    .pipe(babel())
+    .pipe(angularFilesort())
     .pipe(concat('scripts.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist)),
