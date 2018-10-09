@@ -87,6 +87,11 @@ const html = {
       minifyCSS: true,
       minifyJS: true,
       removeComments: true,
+      // unset defaults that destroy angular.js syntax
+      removeEmptyAttributes: false,
+      removeCommentsFromCDATA: false,
+      removeRedundantAttributes: false,
+      collapseBooleanAttributes: false,
     }))
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.html)
