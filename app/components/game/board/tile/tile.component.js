@@ -5,7 +5,7 @@ function tileController() {
 angular.module('game')
   .component('tile', {
     bindings: {
-      color: '<',
+      style: '<',
     },
     templateUrl: 'components/game/board/tile/tile.html',
     controller: tileController,

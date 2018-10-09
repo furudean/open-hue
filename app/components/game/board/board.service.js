@@ -7,7 +7,11 @@ angular.module('game')
       grid-template-columns: repeat(${cols}, 1fr);
       `.replace(/\s/g, ''); // trims whitespace
 
-      const tiles = map.matrix.flat();
+      const tiles = map.matrix
+        .flat()
+        .map((tile) => ({
+          style: `background: ${tile.color}`,
+        }));
 
       return {
         tiles,
