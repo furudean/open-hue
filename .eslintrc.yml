@@ -8,11 +8,13 @@ env:
 plugins:
 - es-beautifier
 - angular
+- compat
 
 extends: 
 - eslint:recommended
 - google
 - plugin:angular/johnpapa
+- plugin:compat/recommended
 
 globals:
   angular: true
