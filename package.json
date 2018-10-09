@@ -5,8 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/.bin/gulp serve",
-    "lint:eslint": "node_modules/.bin/eslint .",
-    "lint:stylelint": "node_modules/.bin/stylelint \"**/*.scss\" --ignore-path .gitignore"
+    "eslint": "node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
