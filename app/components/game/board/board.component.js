@@ -1,5 +1,3 @@
-'use strict';
-
 function tileController($log, board) {
   const vm = this;
 

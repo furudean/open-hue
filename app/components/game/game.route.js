@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('game')
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider.state('game', {

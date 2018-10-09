@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('game')
   .factory('board', ($log) => ({
     new: (rows, cols) => {
