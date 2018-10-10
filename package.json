@@ -1,7 +1,7 @@
 {
   "name": "gradient-game",
   "version": "0.0.1",
-  "description": "Clone of 'I Love Hue', built in angular.js",
+  "description": "Clone of 'I Love Hue', built in Angular.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development node_modules/.bin/gulp serve",
