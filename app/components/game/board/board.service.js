@@ -1,17 +1,11 @@
 angular.module('game')
-  .factory('board', () => {
+  .factory('boardService', () => {
     function deseralize(map) {
-      const {rows, cols} = map;
-      const style = `
-      grid-template-rows: repeat(${rows}, 1fr);
-      grid-template-columns: repeat(${cols}, 1fr);
-      `.replace(/\s/g, ''); // trims whitespace
-
-      const tiles = map.matrix
-        .flat()
-        .map((tile) => ({
-          style: `background: ${tile.color}`,
-        }));
+      const {tiles, height, width} = map;
+      const style = {
+        'grid-template-rows': `repeat(${height}, 1fr)`,
+        'grid-template-columns': `repeat(${width}, 1fr)`,
+      };
 
       return {
         tiles,

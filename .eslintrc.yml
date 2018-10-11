@@ -40,10 +40,13 @@ rules:
   no-unused-vars:
   - error
   - args: all
+  no-sparse-arrays:
+  - off
 
   # angular.js
   angular/file-name:
   - error
   - typeSeparator: dot
+    ignoreTypeSuffix: true
   angular/controller-name:
   - off

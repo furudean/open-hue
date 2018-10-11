@@ -1,24 +1,49 @@
 angular.module('game')
-  .factory('map', () => {
+  .factory('mapService', ($log) => {
     const maps = [
       [
-        [{color: 'red'}, {color: 'blue'}],
-        [{color: 'green'}, {color: 'orange'}],
-        [{color: 'purple'}, {color: 'pink'}],
+        [['#0A2342'], ['#2CA58D']],
+        [['#FFFDF7'], ['#84BC9C']],
+        [['#F46197'], ['#0A2342']],
       ],
     ];
 
-    const getLevel = (numLevel) => {
-      const matrix = maps[numLevel];
+    class Tile {
+      constructor(tile, initialIndex) {
+        this.color = tile?.[0];
+        this.locked = tile?.[1] || false;
+        this.initialIndex = initialIndex;
+        this.style = {
+          background: this.color,
+        };
+      }
+    }
 
-      return {
-        matrix,
-        rows: matrix.length,
-        cols: matrix[0].length,
-      };
-    };
+    class Map {
+      constructor(matrix) {
+        this.height = matrix.length;
+        this.width = matrix[0].length;
+        this.tiles = toTiles(matrix);
+      }
+    }
+
+    function toTiles(matrix) {
+      const tiles = [];
+      let index = 0;
+
+      $log.debug(matrix);
+
+      for (const row of matrix) {
+        for (const cell of row) {
+          tiles.push(new Tile(cell, index));
+          index++;
+        }
+      }
+      return tiles;
+    }
 
     return {
-      getLevel,
+      maps,
+      Map,
     };
   });

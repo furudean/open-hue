@@ -1,9 +1,11 @@
-function boardController($log, board, map) {
+function boardController($log, boardService, mapService) {
   const vm = this;
+  const {Map} = mapService;
 
-  const level = map.getLevel(0);
+  const matrix = mapService.maps[0];
+  const level = new Map(matrix);
 
-  vm.board = board.deseralize(level);
+  vm.board = boardService.deseralize(level);
   $log.debug(vm.board);
 }
 
