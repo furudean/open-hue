@@ -42,7 +42,7 @@
     "eslint-plugin-angular": "^3.3.0",
     "eslint-plugin-compat": "^2.6.2",
     "eslint-plugin-es-beautifier": "^1.0.1",
-    "gulp": "^4.0.0",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-angular-filesort": "^1.2.1",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",
