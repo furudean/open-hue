@@ -47,6 +47,7 @@ rules:
   angular/file-name:
   - error
   - typeSeparator: dot
+    nameStyle: dash
     ignoreTypeSuffix: true
   angular/controller-name:
   - off

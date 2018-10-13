@@ -1,8 +1,8 @@
 angular.module('game')
-  .config(($stateProvider, $urlRouterProvider) => {
+  .config(($stateProvider) => {
     $stateProvider.state('game', {
       url: '/game',
-      controller: 'game as ctrl',
+      controller: 'gameController as $ctrl',
       templateUrl: 'components/game/game.html',
     });
   });
