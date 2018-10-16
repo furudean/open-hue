@@ -14,6 +14,7 @@ const sass = require('gulp-sass');
 const saveLicense = require('uglify-save-license');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
+const rollup = require('gulp-better-rollup');
 
 const paths = {
   app: 'app/',
@@ -107,6 +108,10 @@ const scripts = {
     .pipe(sourcemaps.init()) // enable sourcemaps
     .pipe(babel()) // transpile using babel
     .pipe(angularFilesort()) // sort files into an order angular "likes"
+    .pipe(rollup({ // wrap files in IIFE closures
+      rollup: require('rollup'),
+      format: 'iife',
+    }))
     .pipe(concat('scripts.js')) // concat into one file
     .pipe(uglify({mangle: false})) // minify
     .pipe(sourcemaps.write('.')) // write sourcemap files
@@ -115,6 +120,10 @@ const scripts = {
     .pipe(plumber())
     .pipe(babel())
     .pipe(angularFilesort())
+    .pipe(rollup({
+      rollup: require('rollup'),
+      format: 'iife',
+    }))
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest(paths.dist)),
 };
