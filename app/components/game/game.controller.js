@@ -3,7 +3,9 @@ angular.module('game')
     const vm = this;
     const {Board} = boardService;
     const template = levelTemplateService.templates[0];
-    const board = new Board(template);
-    vm.board = board;
+    const board = vm.board = new Board(template);
+
+    board.shuffle();
+
     $log.info(vm.board);
   });

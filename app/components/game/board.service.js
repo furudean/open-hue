@@ -25,6 +25,26 @@ angular.module('game')
           'grid-template-columns': `repeat(${this.width}, 1fr)`,
         };
       }
+
+      shuffle() {
+        const shuffleIndices = angular.copy(this.tiles)
+          .map((tile, i) => tile.locked ? null : i)
+          .filter((i) => i !== null);
+
+        function swap(array, i, j) {
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+
+        for (let i = shuffleIndices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const k = shuffleIndices[i];
+          const l = shuffleIndices[j];
+
+          swap(this.tiles, k, l);
+        }
+      }
     }
 
     const toTiles = (template) => template.flat()
