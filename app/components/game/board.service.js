@@ -1,9 +1,9 @@
 angular.module('game')
-  .factory('boardService', () => {
+  .factory('boardService', (gradientService, matrixParserService) => {
     class Tile {
-      constructor(cell, index) {
-        this.color = cell?.[0];
-        this.locked = cell?.[1] === true;
+      constructor(color, locked, index) {
+        this.color = color;
+        this.locked = locked;
         this.index = index;
         this.style = {
           background: this.color,
@@ -12,10 +12,14 @@ angular.module('game')
     }
 
     class Board {
-      constructor(matrix) {
-        this.tiles = toTiles(matrix);
-        this.height = matrix.length;
+      constructor(template) {
+        const matrix = matrixParserService.parse(template.matrix);
+        const coloredMatrix = gradientService.gradientize(matrix, template.corners);
+        const tiles = toTiles(coloredMatrix);
+
+        this.tiles = tiles;
         this.width = matrix[0].length;
+        this.height = matrix.length;
         this.style = {
           'grid-template-rows': `repeat(${this.height}, 1fr)`,
           'grid-template-columns': `repeat(${this.width}, 1fr)`,
@@ -23,8 +27,8 @@ angular.module('game')
       }
     }
 
-    const toTiles = (matrix) => matrix.flat()
-      .map((cell, index) => new Tile(cell, index));
+    const toTiles = (template) => template.flat()
+      .map(({color, locked}, index) => new Tile(color, locked, index));
 
     return {
       Board,
