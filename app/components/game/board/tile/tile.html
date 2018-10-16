@@ -1,1 +1,5 @@
-<div class="tile" ng-style="$ctrl.tile.style"></div>
+<div class="tile" ng-style="$ctrl.tile.style" ng-class="{ 'tile--locked' : $ctrl.tile.locked }">
+  <div class="tile__tick">
+    <div></div>
+  </div>
+</div>
