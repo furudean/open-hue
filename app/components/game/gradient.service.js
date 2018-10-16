@@ -1,17 +1,11 @@
 angular.module('game')
   .factory('gradientService', ($log) => {
-    const hexToRgb = (hex) =>
-      hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-        (m, r, g, b) => '#' + r + r + g + g + b + b)
-      .substring(1)
-      .match(/.{2}/g)
-      .map((x) => parseInt(x, 16));
+    const lerp = (start, end, t) => start * (1 - t) + end * t;
 
-    const rgbToHex = (r, g, b) => '#' + [r, g, b]
-      .map((x) => Math.round(x)
-        .toString(16)
-        .padStart(2, '0'))
-        .join('');
+    const biLerp = (x0y0, x1y0, x0y1, x1y1, dx, dy) => lerp(lerp(x0y0, x1y0, dx), lerp(x0y1, x1y1, dx), dy);
+
+    const toCompositeColor = (corners) => Object.values(corners)
+      .map((color) => chroma(color).lch());
 
     function matrixEach(matrix, fn, y = 0) {
       if (y < matrix.length) {
@@ -20,34 +14,29 @@ angular.module('game')
       }
     }
 
-    const toCompositeColors = (corners) => Object.values(corners)
-      .map(hexToRgb);
-
-    const lerp = (start, end, t) => start * (1 - t) + end * t;
-
-    const biLerp = (x0y0, x1y0, x0y1, x1y1, dx, dy) => lerp(lerp(x0y0, x1y0, dx), lerp(x0y1, x1y1, dx), dy);
-
     function gradientize(matrix, corners) {
       const width = matrix[0].length;
       const height = matrix.length;
 
-      const [tl, tr, bl, br] = toCompositeColors(corners);
+      const [tl, tr, bl, br] = toCompositeColor(corners);
 
-      function interpolate(v, x, y) {
-        const dx = x/width;
-        const dy = y/height;
+      function interpolate(cell, x, y) {
+        const dx = x/(width - 1);
+        const dy = y/(height - 1);
 
-        const r = biLerp(tl[0], tr[0], bl[0], br[0], dx, dy);
-        const g = biLerp(tl[1], tr[1], bl[1], br[1], dx, dy);
-        const b = biLerp(tl[2], tr[2], bl[2], br[2], dx, dy);
+        $log.debug({x, y, dx, dy});
 
-        const combined = rgbToHex(r, g, b);
+        const l = biLerp(tl[0], tr[0], bl[0], br[0], dx, dy);
+        const c = biLerp(tl[1], tr[1], bl[1], br[1], dx, dy);
+        const h = biLerp(tl[2], tr[2], bl[2], br[2], dx, dy);
 
-        v.color = combined;
+        const combined = chroma(l, c, h, 'lch').toString();
+
+        cell.color = combined;
       }
 
-
       matrixEach(matrix, interpolate);
+
       return matrix;
     }
 

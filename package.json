@@ -27,7 +27,8 @@
   "browserslist": "> 0.25%",
   "dependencies": {
     "angular": "^1.7.4",
-    "angular-ui-router": "^1.0.20"
+    "angular-ui-router": "^1.0.20",
+    "chroma-js": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

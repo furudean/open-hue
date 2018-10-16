@@ -18,6 +18,7 @@ extends:
 
 globals:
   angular: true
+  chroma: true
 
 rules:
   indent:
