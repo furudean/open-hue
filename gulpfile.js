@@ -119,6 +119,7 @@ const scripts = {
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.scripts)
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(angularFilesort())
     .pipe(rollup({
@@ -126,6 +127,7 @@ const scripts = {
       format: 'iife',
     }))
     .pipe(concat('scripts.js'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist)),
 };
 
@@ -182,11 +184,13 @@ const styles = {
     return gulp.src(paths.stylesBase)
       .pipe(plumber())
       .pipe(inject(toInject, injectOptions))
+      .pipe(sourcemaps.init())
       .pipe(sass({
         includePaths: ['node_modules'],
         precision: 8,
       }))
       .pipe(concat('style.css'))
+      .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(paths.dist))
       .pipe(bs.stream()); // let browsersync know that we updated the styles
   },
@@ -210,7 +214,9 @@ const vendorScripts = {
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.vendorScripts)
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(concat('vendors.js'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist)),
 };
 
