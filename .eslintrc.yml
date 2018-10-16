@@ -39,7 +39,6 @@ rules:
   - off
   no-unused-vars:
   - error
-  - args: all
   no-sparse-arrays:
   - off
 
