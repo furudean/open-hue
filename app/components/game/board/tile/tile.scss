@@ -2,9 +2,31 @@
   position: relative;
   width: 100%;
   height: 100%;
+  transition: 
+    transform 150ms $standard-easing,
+    top 300ms $decelerate-easing,
+    left 300ms $decelerate-easing;
+  cursor: move;
+  will-change: top, left, transform;
 
-  &:not(&--locked) .tile__tick {
-    visibility: hidden;
+  &--locked {
+    cursor: auto;
+    z-index: 0;
+  }
+
+  &--lifted {
+    transform: scale(1.3) !important;
+    transition: 200ms $standard-easing transform; // don't animate top and left when tile is lifted
+  }
+
+  &:not(&--locked) {
+    &:hover {
+      z-index: 1;
+      transform: scale(1.15);
+    }
+    .tile__tick {
+      visibility: hidden;
+    }
   }
 }
 
@@ -12,12 +34,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   pointer-events: none;
+  height: 100%;
+  width: 100%;
 
   div {
     $size: 5px;

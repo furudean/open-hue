@@ -3,12 +3,12 @@ angular.module('game')
     const templates = [
       {
         name: 'the big boy',
-        matrix: 'xoooox\n'.repeat(7),
+        matrix: 'xooooox\n'.repeat(7),
         corners: {
-          tl: '#392ACD',
-          tr: '#FA1AC2',
-          bl: '#6DF0BA',
-          br: '#ECFF42',
+          tl: '#FF8711',
+          tr: '#FF8711',
+          bl: '#FF3F11',
+          br: '#FF3F11',
         },
       },
     ];

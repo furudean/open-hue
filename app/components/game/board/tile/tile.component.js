@@ -1,7 +1,7 @@
 angular.module('game')
   .component('tile', {
     bindings: {
-      tile: '<',
+      tile: '=',
     },
     templateUrl: 'components/game/board/tile/tile.html',
   });
