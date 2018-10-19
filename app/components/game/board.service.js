@@ -1,13 +1,27 @@
 angular.module('game')
-  .factory('boardService', (gradientService, matrixParserService) => {
+  .factory('boardService', (gradientService, matrixParserService, $timeout, $log) => {
     class Tile {
       constructor(color, locked, index) {
         this.color = color;
         this.locked = locked;
         this.index = index;
+        this.hidden = false;
         this.style = {
           background: this.color,
         };
+      }
+
+      async setHidden(hidden, doLocked = false) {
+        return new Promise((resolve, reject) => {
+          if (doLocked || !this.locked) {
+            this.hidden = hidden;
+            $timeout(() => {
+              resolve();
+            }, 200); // wait for tween before resolving
+          } else {
+            resolve();
+          }
+        });
       }
     }
 
@@ -21,29 +35,43 @@ angular.module('game')
         this.width = matrix[0].length;
         this.height = matrix.length;
         this.style = {
-          'grid-template-rows': `repeat(${this.height}, 1fr)`,
-          'grid-template-columns': `repeat(${this.width}, 1fr)`,
+          gridTemplateRows: `repeat(${this.height}, 1fr)`,
+          gridTemplateColumns: `repeat(${this.width}, 1fr)`,
         };
       }
 
-      shuffle() {
-        const shuffleIndices = angular.copy(this.tiles)
-          .map((tile, i) => tile.locked ? null : i)
-          .filter((i) => i !== null);
+      async setHiddenAll(hidden, doLocked = false) {
+        const hiddenPromises = this.tiles.map((tile) =>
+          tile.setHidden(hidden, doLocked));
 
-        function swap(array, i, j) {
+        return Promise.all(hiddenPromises);
+      }
+
+      async shuffle() {
+        function shuffleIndices(array, indicesToShuffle, i = (indicesToShuffle.length - 1)) {
+          if (i > 0) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const k = indicesToShuffle[i];
+            const l = indicesToShuffle[j];
+
+            swapIndex(array, k, l);
+            shuffleIndices(array, indicesToShuffle, --i);
+          }
+        }
+
+        function swapIndex(array, i, j) {
           const temp = array[i];
           array[i] = array[j];
           array[j] = temp;
         }
 
-        for (let i = shuffleIndices.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          const k = shuffleIndices[i];
-          const l = shuffleIndices[j];
+        const indicesToShuffle = angular.copy(this.tiles)
+          .map((tile, i) => tile.locked ? null : i)
+          .filter((i) => i !== null);
 
-          swap(this.tiles, k, l);
-        }
+        await this.setHiddenAll(true);
+        shuffleIndices(this.tiles, indicesToShuffle);
+        await this.setHiddenAll(false);
       }
     }
 

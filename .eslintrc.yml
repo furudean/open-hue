@@ -20,6 +20,11 @@ globals:
   angular: true
   chroma: true
 
+settings:
+  polyfills:
+  - asyncawait
+  - promises
+
 rules:
   indent:
   - error

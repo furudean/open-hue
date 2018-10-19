@@ -1,3 +1,21 @@
+@keyframes appear {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes disappear {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
 .tile {
   position: relative;
   width: 100%;
@@ -9,9 +27,12 @@
   cursor: move;
   cursor: grab;
   will-change: top, left, transform;
+  animation: 400ms appear $standard-easing;
+  // transform: scale(1);
 
   &--locked {
     cursor: auto;
+    animation: none;
   }
 
   &--lifted {
@@ -19,6 +40,10 @@
     transform: scale(1.125);
     transition: 150ms $standard-easing transform;
     cursor: grabbing;
+  }
+
+  &--hidden {
+    transform: scale(0);
   }
   
   // &:not(&--lifted):hover {

@@ -24,17 +24,20 @@
     "url": "https://github.com/c-bandy/gradient-game/issues"
   },
   "homepage": "https://github.com/c-bandy/gradient-game#readme",
-  "browserslist": "> 0.25%",
+  "browserslist": "last 2 versions, > 1%",
   "dependencies": {
     "angular": "^1.7.4",
     "angular-ui-router": "^1.0.20",
-    "chroma-js": "^1.4.0"
+    "chroma-js": "^1.4.0",
+    "es6-promise": "^4.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-es6-promise": "^1.1.1",
     "browser-sync": "^2.24.7",
     "del": "^3.0.0",
     "delete-empty": "^2.0.0",
