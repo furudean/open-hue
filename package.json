@@ -58,7 +58,7 @@
     "gulp-plumber": "^1.2.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
+    "gulp-terser": "^1.1.5",
     "rollup": "^0.66.6",
     "uglify-save-license": "^0.4.1"
   }

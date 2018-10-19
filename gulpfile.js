@@ -13,7 +13,7 @@ const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const saveLicense = require('uglify-save-license');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+const terser = require('gulp-terser');
 const rollup = require('gulp-better-rollup');
 
 const paths = {
@@ -114,7 +114,7 @@ const scripts = {
       format: 'iife',
     }))
     .pipe(concat('scripts.js')) // concat into one file
-    .pipe(uglify({mangle: false})) // minify
+    .pipe(terser({mangle: false})) // minify
     .pipe(sourcemaps.write('.')) // write sourcemap files
     .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.scripts)
@@ -204,7 +204,7 @@ const vendorScripts = {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(concat('vendors.js'))
-    .pipe(uglify({
+    .pipe(terser({
       mangle: false,
       output: {
         comments: saveLicense, // keep vendor licenses
