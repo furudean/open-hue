@@ -15,6 +15,10 @@ const saveLicense = require('uglify-save-license');
 const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
 const rollup = require('gulp-better-rollup');
+const rev = require('gulp-rev');
+const revRewrite = require('gulp-rev-rewrite');
+const filter = require('gulp-filter');
+const revDelete = require('gulp-rev-delete-original');
 
 const paths = {
   app: 'app/',
@@ -228,12 +232,35 @@ const other = () => gulp.src(paths.other, {cwd: paths.app + '**'})
   .pipe(gulp.dest(paths.dist));
 
 /**
+ * Adds revisions to end of filenames and rewrites references to those files
+ * @param {function} done - A callback function
+ * @returns {void}
+ */
+const revision = (done) => {
+  const notIndex = filter(
+    [paths.dist + '**', `!${paths.dist}index.html`],
+    {restore: true});
+
+  gulp.src(paths.dist + '**')
+    .pipe(plumber())
+    .pipe(notIndex)
+    .pipe(rev()) // rename all files except index.html
+    .pipe(revDelete()) // delete original files
+    .pipe(notIndex.restore)
+    .pipe(revRewrite()) // substitute in new filenames
+    .pipe(gulp.dest(paths.dist));
+
+  done();
+};
+
+/**
  * Cleans .dist/ folder, then builds the application
  */
 const build = {
   prod: (done) => gulp.series(
     clean,
     gulp.parallel(html.prod, scripts.prod, styles.prod, vendorScripts.prod, other),
+    revision,
     removeEmpty
   )(done),
   dev: (done) => gulp.series(
@@ -260,5 +287,6 @@ module.exports = {
   'build:dev': build.dev,
   'build:prod': build.prod,
   'start-server': startServer,
+  'rev': revision,
   'default': serve,
 };
