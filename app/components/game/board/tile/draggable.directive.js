@@ -15,13 +15,8 @@ angular.module('game')
       let x = 0;
       let callback;
 
-      if (tile.locked === true) {
-        return;
-      }
-
-      element.on('mousedown', (event) => {
+      function mousedown() {
         event.preventDefault();
-
         $timeout.cancel(callback);
 
         y0 = event.screenY - y;
@@ -31,7 +26,7 @@ angular.module('game')
         $document.on('mouseup', mouseup);
         element.addClass('tile--lifted');
         element.css('zIndex', 2);
-      });
+      }
 
       function mousemove(event) {
         y = event.screenY - y0;
@@ -48,14 +43,18 @@ angular.module('game')
 
         $log.info(event);
 
+        moveTo(element, 0, 0);
         element.removeClass('tile--lifted');
         $document.unbind('mousemove', mousemove);
         $document.unbind('mouseup', mouseup);
         element.css('zIndex', 1);
-        moveTo(element, 0, 0);
         callback = $timeout(() => {
           element.css('zIndex', null);
         }, 250);
+      }
+
+      if (tile.locked === false) {
+        element.on('mousedown', mousedown);
       }
     }
 
