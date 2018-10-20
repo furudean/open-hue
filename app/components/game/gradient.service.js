@@ -3,14 +3,14 @@ angular.module('game')
     const lerp = (start, end, t) => start * (1 - t) + end * t;
 
     function lerpAngle(start, end, t) {
-      start = start % 360
-      end = end % 360
+      start = start % 360;
+      end = end % 360;
       if (end - start > 180) {
-        end -= 360
+        end -= 360;
       } else if (end - start < -180) {
-        end += 360
+        end += 360;
       }
-      return start + (end - start) * t
+      return start + (end - start) * t;
     }
 
     const biLerp = (lerpFn) =>
