@@ -2,7 +2,24 @@ angular.module('game')
   .factory('gradientService', ($log) => {
     const lerp = (start, end, t) => start * (1 - t) + end * t;
 
-    const biLerp = (x0y0, x1y0, x0y1, x1y1, dx, dy) => lerp(lerp(x0y0, x1y0, dx), lerp(x0y1, x1y1, dx), dy);
+    function lerpAngle(start, end, t) {
+      start = start % 360
+      end = end % 360
+      if (end - start > 180) {
+        end -= 360
+      } else if (end - start < -180) {
+        end += 360
+      }
+      return start + (end - start) * t
+    }
+
+    const biLerp = (lerpFn) =>
+      (x0y0, x1y0, x0y1, x1y1, dx, dy) =>
+        lerpFn(
+          lerpFn(x0y0, x1y0, dx), // top
+          lerpFn(x0y1, x1y1, dx), // bottom
+          dy
+        );
 
     const toCompositeColor = (corners) => Object.values(corners)
       .map((color) => chroma(color).lch());
@@ -26,9 +43,9 @@ angular.module('game')
 
         $log.debug({x, y, dx, dy});
 
-        const l = biLerp(tl[0], tr[0], bl[0], br[0], dx, dy);
-        const c = biLerp(tl[1], tr[1], bl[1], br[1], dx, dy);
-        const h = biLerp(tl[2], tr[2], bl[2], br[2], dx, dy);
+        const l = biLerp(lerp)(tl[0], tr[0], bl[0], br[0], dx, dy);
+        const c = biLerp(lerp)(tl[1], tr[1], bl[1], br[1], dx, dy);
+        const h = biLerp(lerpAngle)(tl[2], tr[2], bl[2], br[2], dx, dy);
 
         const combined = chroma(l, c, h, 'lch').toString();
 
