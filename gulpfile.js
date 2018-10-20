@@ -31,6 +31,7 @@ const paths = {
   vendorScripts: [
     'node_modules/angular/angular.min.js',
     'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+    'node_modules/ngdraggable/ngDraggable.js',
     'node_modules/chroma-js/chroma.min.js',
   ],
   vendorStyles: [],

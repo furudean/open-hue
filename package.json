@@ -29,7 +29,8 @@
     "angular": "^1.7.4",
     "angular-ui-router": "^1.0.20",
     "chroma-js": "^1.4.0",
-    "es6-promise": "^4.2.5"
+    "es6-promise": "^4.2.5",
+    "ngdraggable": "github:fatlinesofcode/ngDraggable#0.1.11"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

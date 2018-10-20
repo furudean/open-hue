@@ -1,39 +1,44 @@
 .tile {
-  position: relative;
   width: 100%;
   height: 100%;
-  transition: 
-    transform 300ms $standard-easing,
-    top 300ms $decelerate-easing,
-    left 300ms $decelerate-easing;
-  transform: scale(1);
+  position: relative;
   cursor: move;
   cursor: grab;
-  will-change: top, left, transform;
+  will-change: transform;
+  transition: transform 300ms $standard-easing; // transition when dropped
 
   &--locked {
     cursor: auto;
   }
 
-  &--lifted {
+  &.dragging {
+    transition: none; // disable transition when dragging
+  }
+  
+  &.dragging .tile__background {
     z-index: 1;
     transform: scale(1.25);
-    transition: 150ms $standard-easing transform;
     cursor: grabbing;
   }
 
-  &--hidden {
+  &--hidden .tile__background {
     transform: scale(0);
   }
-  
-  // &:not(&--lifted):hover {
-  //   z-index: 1;
-  //   transform: scale(1.125);
-  // }
 
   &:not(&--locked) .tile__tick {
     visibility: hidden;
   }
+}
+
+.tile__background {
+  transition: transform 300ms $standard-easing;
+  transform: scale(1);
+  will-change: transform;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .tile__tick {
@@ -41,8 +46,11 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   div {
     $size: 5px;

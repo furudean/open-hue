@@ -1,3 +1,4 @@
 <div class="board" ng-style="$ctrl.board.style">
-  <tile ng-repeat="tile in $ctrl.board.tiles" tile="tile"></tile>
+  <tile ng-repeat="tile in $ctrl.board.tiles track by $index" index="$index" tile="tile" is-draggable="!tile.locked" 
+  drop-fn="$ctrl.onDrop"></tile>
 </div>
