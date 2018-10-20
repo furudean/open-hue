@@ -11,13 +11,15 @@ angular.module('game')
         };
       }
 
-      async setHidden(hidden, doLocked = false) {
+      async setHidden(hidden, delay, doLocked = false) {
         return new Promise((resolve, reject) => {
           if (doLocked || !this.locked) {
-            this.hidden = hidden;
             $timeout(() => {
-              resolve();
-            }, 200); // wait for tween before resolving
+              this.hidden = hidden;
+              $timeout(() => {
+                resolve();
+              }, 300); // wait for tween before resolving
+            }, delay);
           } else {
             resolve();
           }
@@ -40,9 +42,9 @@ angular.module('game')
         };
       }
 
-      async setHiddenAll(hidden, doLocked = false) {
-        const hiddenPromises = this.tiles.map((tile) =>
-          tile.setHidden(hidden, doLocked));
+      async setHiddenAll(hidden, tweenTime = 0, doLocked = false) {
+        const hiddenPromises = this.tiles.map((tile, i) =>
+          tile.setHidden(hidden, i * tweenTime, doLocked));
 
         return Promise.all(hiddenPromises);
       }
@@ -68,10 +70,11 @@ angular.module('game')
         const indicesToShuffle = angular.copy(this.tiles)
           .map((tile, i) => tile.locked ? null : i)
           .filter((i) => i !== null);
+        const tweenTime = 800 / this.tiles.length;
 
-        await this.setHiddenAll(true);
+        await this.setHiddenAll(true, tweenTime);
         shuffleIndices(this.tiles, indicesToShuffle);
-        await this.setHiddenAll(false);
+        await this.setHiddenAll(false, tweenTime);
       }
     }
 

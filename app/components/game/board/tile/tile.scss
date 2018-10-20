@@ -1,21 +1,3 @@
-@keyframes appear {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes disappear {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0);
-  }
-}
-
 .tile {
   position: relative;
   width: 100%;
@@ -24,20 +6,18 @@
     transform 300ms $standard-easing,
     top 300ms $decelerate-easing,
     left 300ms $decelerate-easing;
+  transform: scale(1);
   cursor: move;
   cursor: grab;
   will-change: top, left, transform;
-  animation: 400ms appear $standard-easing;
-  // transform: scale(1);
 
   &--locked {
     cursor: auto;
-    animation: none;
   }
 
   &--lifted {
     z-index: 1;
-    transform: scale(1.125);
+    transform: scale(1.25);
     transition: 150ms $standard-easing transform;
     cursor: grabbing;
   }
