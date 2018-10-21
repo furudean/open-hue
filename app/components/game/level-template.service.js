@@ -4,14 +4,14 @@ angular.module('game')
       {
         name: 'first steps',
         matrix:
-          '3x\n' +
+          'xxx\n' +
           'xox\n'.repeat(8) +
-          '3x\n',
+          'xxx\n',
         corners: {
-          tl: '#ffc711',
-          tr: '#ffc711',
-          bl: '#ff760d',
-          br: '#ff760d',
+          tl: '#86D3E6',
+          tr: '#86D3E6',
+          bl: '#006E90',
+          br: '#006E90',
         },
       },
       {

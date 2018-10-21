@@ -13,17 +13,20 @@
 
   &.dragging {
     transition: none; // disable transition when dragging
-
     .tile__background {
       z-index: 1;
-      transform: scale(1.25);
+      transform: scale(1.1);
       cursor: grabbing;
     }
   }
 
-  &--hidden .tile__background {
-    transform: scale(0);
+  &--hidden {
+    pointer-events: none;
+    .tile__background {
+      transform: scale(0);
+    }
   }
+  
 
   &:not(&--locked) .tile__tick {
     visibility: hidden;
