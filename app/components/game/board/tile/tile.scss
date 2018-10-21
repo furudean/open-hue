@@ -13,12 +13,12 @@
 
   &.dragging {
     transition: none; // disable transition when dragging
-  }
-  
-  &.dragging .tile__background {
-    z-index: 1;
-    transform: scale(1.25);
-    cursor: grabbing;
+
+    .tile__background {
+      z-index: 1;
+      transform: scale(1.25);
+      cursor: grabbing;
+    }
   }
 
   &--hidden .tile__background {
@@ -54,7 +54,7 @@
 
   div {
     $size: 5px;
-    background: black;
+    background: $black-color;
     width: $size;
     height: $size;
   }

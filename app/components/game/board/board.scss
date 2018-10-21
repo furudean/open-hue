@@ -1,5 +1,26 @@
+.game-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+board {
+  display: block;
+  position: relative;
+  padding-left: (2 / 3) * 100%;
+  width: 0;
+  height: 100%; 
+}
+
 .board {
-  height: 700px;
-  width: 700px;
   display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
