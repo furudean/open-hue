@@ -33,6 +33,7 @@ angular.module('game')
         const coloredMatrix = gradientService.gradientize(matrix, template.corners);
         const tiles = toTiles(coloredMatrix);
 
+        this.name = template.name;
         this.tiles = tiles;
         this.width = matrix[0].length;
         this.height = matrix.length;
