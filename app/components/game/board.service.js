@@ -76,6 +76,10 @@ angular.module('game')
         shuffleIndices(this.tiles, indicesToShuffle);
         await this.setHiddenAll(false, tweenTime);
       }
+
+      isWin() {
+        return this.tiles.every((tile, i) => tile.index === i);
+      }
     }
 
     const toTiles = (template) => template.flat()
