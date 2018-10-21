@@ -15,8 +15,10 @@ angular.module('game')
     function init(params) {
       const template = levelTemplateService.templates[0];
       board = vm.board = new Board(template);
-      $timeout(() => {
+      $timeout(async () => {
+        await board.setHiddenAll(true, 20);
         board.shuffle();
+        board.setHiddenAll(false, 20);
       }, 1000);
     }
 

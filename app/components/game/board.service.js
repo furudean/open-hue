@@ -50,7 +50,7 @@ angular.module('game')
         return Promise.all(hiddenPromises);
       }
 
-      async shuffle() {
+      shuffle() {
         function shuffleIndices(array, indicesToShuffle, i = (indicesToShuffle.length - 1)) {
           if (i > 0) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -61,7 +61,6 @@ angular.module('game')
             shuffleIndices(array, indicesToShuffle, --i);
           }
         }
-
         function swapIndex(array, i, j) {
           const temp = array[i];
           array[i] = array[j];
@@ -71,11 +70,8 @@ angular.module('game')
         const indicesToShuffle = angular.copy(this.tiles)
           .map((tile, i) => tile.locked ? null : i)
           .filter((i) => i !== null);
-        const tweenTime = 800 / this.tiles.length;
 
-        await this.setHiddenAll(true, tweenTime);
         shuffleIndices(this.tiles, indicesToShuffle);
-        await this.setHiddenAll(false, tweenTime);
       }
 
       isWin() {
