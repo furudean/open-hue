@@ -4,9 +4,9 @@ angular.module('game')
       {
         name: 'first steps',
         matrix:
-          'xxx\n' +
+          '3x\n' +
           'xox\n'.repeat(8) +
-          'xxx\n',
+          '3x\n',
         corners: {
           tl: '#ffc711',
           tr: '#ffc711',
