@@ -8,20 +8,20 @@ angular.module('game')
           'xox\n'.repeat(8) +
           'xxx\n',
         corners: {
-          tl: '#86D3E6',
-          tr: '#86D3E6',
-          bl: '#006E90',
-          br: '#006E90',
+          topLeft: '#86D3E6',
+          topRight: '#86D3E6',
+          bottomLeft: '#006E90',
+          bottomRight: '#006E90',
         },
       },
       {
         name: 'the big boy',
         matrix: 'xooox\n'.repeat(5),
         corners: {
-          tl: '#3F0039',
-          tr: '#820046',
-          bl: '#B10D45',
-          br: '#E05917',
+          topLeft: '#3F0039',
+          topRight: '#820046',
+          bottomLeft: '#B10D45',
+          bottomRight: '#E05917',
         },
       },
     ];

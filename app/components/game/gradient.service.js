@@ -16,8 +16,8 @@ angular.module('game')
     function gradientize(matrix, corners) {
       const width = matrix[0].length;
       const height = matrix.length;
-      const [tl, tr, bl, br] = Object.values(corners);
-      const interpolate = biScale(tl, tr, bl, br);
+      const {topLeft, topRight, bottomLeft, bottomRight} = corners;
+      const interpolate = biScale(topLeft, topRight, bottomLeft, bottomRight);
 
       matrixEach(matrix, (cell, x, y) => {
         cell.color = interpolate(x/(width - 1), y/(height - 1));
