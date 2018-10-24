@@ -16,7 +16,7 @@ angular.module('game')
       },
       {
         name: 'the big boy',
-        matrix: 'xooox\n'.repeat(5),
+        matrix: 'x4ox\n'.repeat(6),
         corners: {
           topLeft: '#3F0039',
           topRight: '#820046',
