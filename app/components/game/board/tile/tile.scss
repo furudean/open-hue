@@ -15,7 +15,7 @@
     transition: none; // disable transition when dragging
     .tile__background {
       z-index: 1;
-      transform: scale(1.1);
+      transform: scale(1.2);
       cursor: grabbing;
     }
   }
