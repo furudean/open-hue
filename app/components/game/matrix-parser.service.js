@@ -1,7 +1,7 @@
 angular.module('game')
   .factory('matrixParserService', ($log) => {
     const toObject = (element) => ({
-      locked: element === 'x',
+      isLocked: element === 'x',
     });
 
     const expand = (acc, curr) => {

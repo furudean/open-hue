@@ -1,27 +1,39 @@
 angular.module('game')
   .factory('boardService', (gradientService, matrixParserService, $timeout, $log) => {
+    function _setHiddenTile(tile, hidden, delay) {
+      return new Promise((resolve, reject) => {
+        $timeout(() => {
+          tile.isHidden = hidden;
+          $timeout(() => {
+            resolve();
+          }, 300); // wait for tween before resolving
+        }, delay);
+      });
+    }
+
+    function _setHiddenBoard(tiles, hidden, tweenTime, filterFn = () => true) {
+      const hiddenPromises = tiles
+        .filter(filterFn)
+        .map((tile, i) => _setHiddenTile(tile, hidden, i * tweenTime));
+
+      return Promise.all(hiddenPromises);
+    }
+
     class Tile {
-      constructor(color, locked, index) {
+      constructor(color, index, isLocked) {
         this.color = color;
-        this.locked = locked;
         this.index = index;
-        this.hidden = false;
+        this.isLocked = isLocked;
+        this.isHidden = false;
         this.style = {};
       }
 
-      async setHidden(hidden, delay, doLocked = false) {
-        return new Promise((resolve, reject) => {
-          if (doLocked || !this.locked) {
-            $timeout(() => {
-              this.hidden = hidden;
-              $timeout(() => {
-                resolve();
-              }, 300); // wait for tween before resolving
-            }, delay);
-          } else {
-            resolve();
-          }
-        });
+      async hide(delay) {
+        return _setHiddenTile(this, true, delay);
+      }
+
+      async show(delay) {
+        return _setHiddenTile(this, false, delay);
       }
     }
 
@@ -41,11 +53,16 @@ angular.module('game')
         };
       }
 
-      async setHiddenAll(hidden, tweenTime = 20, doLocked = false) {
-        const hiddenPromises = this.tiles.map((tile, i) =>
-          tile.setHidden(hidden, i * tweenTime, doLocked));
+      async hide(tweenTime = 20, filterFn) {
+        return _setHiddenBoard(this.tiles, true, tweenTime, filterFn);
+      }
 
-        return Promise.all(hiddenPromises);
+      async show(tweenTime = 20, filterFn) {
+        return _setHiddenBoard(this.tiles, false, tweenTime, filterFn);
+      }
+
+      isWin() {
+        return this.tiles.every((tile, i) => tile.index === i);
       }
 
       shuffle() {
@@ -66,19 +83,15 @@ angular.module('game')
         }
 
         const indicesToShuffle = angular.copy(this.tiles)
-          .map((tile, i) => tile.locked ? null : i)
+          .map((tile, i) => tile.isLocked ? null : i)
           .filter((i) => i !== null);
 
         shuffleIndices(this.tiles, indicesToShuffle);
       }
-
-      isWin() {
-        return this.tiles.every((tile, i) => tile.index === i);
-      }
     }
 
     const toTiles = (template) => template.flat()
-      .map(({color, locked}, index) => new Tile(color, locked, index));
+      .map(({color, isLocked}, index) => new Tile(color, index, isLocked));
 
     return {
       Board,

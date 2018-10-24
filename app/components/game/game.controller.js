@@ -6,28 +6,30 @@ angular.module('game')
 
     const sleep = async (ms) => new Promise((resolve) => $timeout(resolve, ms));
 
-
     vm.onTileMoved = function(event) {
       const isWin = board.isWin();
       if (isWin) {
         $timeout(() => {
           $window.alert('you win!');
         }, 500);
-        // board.setHiddenAll(true, 20, true);
+        // board.hide(true, 20, true);
       }
     };
 
     async function init() {
       const template = levelTemplateService.templates[$stateParams.id - 1];
-      vm.board = board = new Board(template);
-      board.setHiddenAll(true, 0, true);
+      const notLockedFilter = (tile) => tile.isLocked === false;
 
-      await sleep(); // run an angular cycle to make sure the board is loaded
-      await board.setHiddenAll(false, 20, true);
+      vm.board = board = new Board(template);
+      await board.hide(0);
+
+      await board.show();
       await sleep(2000);
-      await board.setHiddenAll(true);
+
+      await board.hide(undefined, notLockedFilter);
+
       board.shuffle();
-      board.setHiddenAll(false);
+      board.show(undefined, notLockedFilter);
     }
 
     init();
