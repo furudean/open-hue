@@ -7,7 +7,7 @@ angular.module('game')
     vm.onTileMoved = function(event) {
       const isWin = board.isWin();
       if (isWin) {
-        $window.alert('you win!');
+          $window.alert('you win!');
         // board.setHiddenAll(true, 20, true);
       }
     };
@@ -16,10 +16,10 @@ angular.module('game')
       const template = levelTemplateService.templates[0];
       board = vm.board = new Board(template);
       $timeout(async () => {
-        await board.setHiddenAll(true, 20);
+        await board.setHiddenAll(true);
         board.shuffle();
-        board.setHiddenAll(false, 20);
-      }, 1000);
+        board.setHiddenAll(false);
+      }, 2000);
     }
 
     init();

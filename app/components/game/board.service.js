@@ -41,7 +41,7 @@ angular.module('game')
         };
       }
 
-      async setHiddenAll(hidden, tweenTime = 0, doLocked = false) {
+      async setHiddenAll(hidden, tweenTime = 20, doLocked = false) {
         const hiddenPromises = this.tiles.map((tile, i) =>
           tile.setHidden(hidden, i * tweenTime, doLocked));
 
