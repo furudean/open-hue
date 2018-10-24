@@ -19,6 +19,7 @@ const rev = require('gulp-rev');
 const revRewrite = require('gulp-rev-rewrite');
 const filter = require('gulp-filter');
 const revDelete = require('gulp-rev-delete-original');
+const modRewrite = require('connect-modrewrite');
 
 const paths = {
   app: 'app/',
@@ -46,6 +47,11 @@ function startServer(done) {
   bs.init({
     server: {
       baseDir: paths.dist,
+      middleware: [
+        modRewrite([
+          '!\\.\\w+$ /index.html [L]', // support html5mode
+        ]),
+      ],
     },
   });
   done();

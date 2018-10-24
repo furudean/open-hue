@@ -1,5 +1,5 @@
 angular.module('game')
-  .controller('gameController', function(boardService, levelTemplateService, $log, $timeout, $window) {
+  .controller('gameController', function(boardService, levelTemplateService, $log, $timeout, $window, $stateParams) {
     const vm = this;
     const {Board} = boardService;
     let board;
@@ -14,8 +14,8 @@ angular.module('game')
       }
     };
 
-    function init(params) {
-      const template = levelTemplateService.templates[1];
+    function init() {
+      const template = levelTemplateService.templates[$stateParams.id - 1];
       board = vm.board = new Board(template);
       $timeout(async () => {
         await board.setHiddenAll(true);
