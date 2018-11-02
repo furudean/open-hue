@@ -6,5 +6,5 @@ angular.module('game')
       isDraggable: '<',
       dropFn: '=',
     },
-    templateUrl: 'components/game/board/tile/tile.html',
+    templateUrl: 'tile.html',
   });

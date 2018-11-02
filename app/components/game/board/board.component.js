@@ -23,7 +23,7 @@ function boardController($log) {
 
 angular.module('game')
   .component('board', {
-    templateUrl: 'components/game/board/board.html',
+    templateUrl: 'board.html',
     controller: boardController,
     bindings: {
       board: '=',

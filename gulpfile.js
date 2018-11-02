@@ -1,6 +1,6 @@
 const angularFilesort = require('gulp-angular-filesort');
 const autoprefixer = require('gulp-autoprefixer');
-const babel = require('gulp-babel');
+const babel = require('rollup-plugin-babel');
 const bs = require('browser-sync').create();
 const concat = require('gulp-concat');
 const cssnano = require('gulp-cssnano');
@@ -20,16 +20,24 @@ const revRewrite = require('gulp-rev-rewrite');
 const filter = require('gulp-filter');
 const revDelete = require('gulp-rev-delete-original');
 const modRewrite = require('connect-modrewrite');
+const embedTemplates = require('gulp-angular-embed-templates');
 
 const paths = {
   app: 'app/',
-  dist: '.dist/',
-  html: ['app/**/*.html'],
+  dist: 'dist/',
+  index: ['app/index.html'],
+  templates: ['app/components/**/*.html'],
   scripts: ['app/**/*.js', '**/**/!*.spec.js'],
   stylesBase: ['app/app.scss'],
   styles: ['app/views/**/*.scss', 'app/components/**/*.scss'],
   other: ['assets/**'],
   vendorScripts: [
+    /*
+      this is a big sin. i would prefer not to use all the polyfills
+      in babel but i am too tired to figure out a solution right now.
+    */
+    'node_modules/@babel/polyfill/dist/polyfill.min.js',
+
     'node_modules/angular/angular.min.js',
     'node_modules/angular-ui-router/release/angular-ui-router.min.js',
     'node_modules/ngdraggable/ngDraggable.js',
@@ -90,10 +98,10 @@ const clean = () => del([paths.dist]);
 const removeEmpty = () => deleteEmpty(paths.dist);
 
 /**
- * Compiles and moves `paths.html` to output directory
+ * Minifies and moves `paths.index` to dist/
  */
 const html = {
-  prod: () => gulp.src(paths.html)
+  prod: () => gulp.src(paths.index)
     .pipe(plumber())
     .pipe(htmlmin({ // minify HTML
       collapseWhitespace: true,
@@ -107,7 +115,7 @@ const html = {
       collapseBooleanAttributes: false,
     }))
     .pipe(gulp.dest(paths.dist)),
-  dev: () => gulp.src(paths.html)
+  dev: () => gulp.src(paths.index)
     .pipe(gulp.dest(paths.dist)),
 };
 
@@ -116,27 +124,29 @@ const html = {
  */
 const scripts = {
   prod: () => gulp.src(paths.scripts)
-    .pipe(plumber())
-    .pipe(sourcemaps.init()) // enable sourcemaps
-    .pipe(babel()) // transpile using babel
-    .pipe(angularFilesort()) // sort files into an order angular "likes"
-    .pipe(rollup({ // wrap files in IIFE closures
-      rollup: require('rollup'),
-      format: 'iife',
-    }))
-    .pipe(concat('scripts.js')) // concat into one file
-    .pipe(terser({mangle: false})) // minify
-    .pipe(sourcemaps.write('.')) // write sourcemap files
-    .pipe(gulp.dest(paths.dist)),
+      .pipe(plumber())
+      .pipe(sourcemaps.init()) // use sourcemaps
+      .pipe(rollup({
+        plugins: [babel()], // transpile using babel
+      }, {
+        format: 'iife', // wrap each script in IIFE closures
+      }))
+      .pipe(embedTemplates()) // inline angular `templateUrl`s
+      .pipe(angularFilesort()) // sort files into an order angular "likes"
+      .pipe(concat('scripts.js')) // concat into one file
+      .pipe(terser({mangle: false})) // minify
+      .pipe(sourcemaps.write('.')) // write sourcemap files
+      .pipe(gulp.dest(paths.dist)),
   dev: () => gulp.src(paths.scripts)
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(angularFilesort())
     .pipe(rollup({
-      rollup: require('rollup'),
+      plugins: [babel()],
+    }, {
       format: 'iife',
     }))
+    .pipe(embedTemplates())
+    .pipe(angularFilesort())
     .pipe(concat('scripts.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dist)),
@@ -261,7 +271,7 @@ const revision = (done) => {
 };
 
 /**
- * Cleans .dist/ folder, then builds the application
+ * Cleans dist/ folder, then builds the application
  */
 const build = {
   prod: (done) => gulp.series(
@@ -278,7 +288,7 @@ const build = {
 };
 
 const watch = () => {
-  gulp.watch(paths.html, gulp.series(notifyServer, html.dev, reloadServer));
+  gulp.watch(paths.html, gulp.series(notifyServer, scripts.dev, reloadServer));
   gulp.watch('app/**/*.@(js|ts)', gulp.series(notifyServer, scripts.dev, reloadServer));
   gulp.watch('app/**/*.@(scss|css)', gulp.series(notifyServer, styles.dev, (done) => {
     bs.notify('CSS updated!');
