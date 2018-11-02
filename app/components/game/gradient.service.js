@@ -3,7 +3,7 @@ angular.module('game')
     function biScale(x0y0, x1y0, x0y1, x1y1) {
       const top = chroma.scale([x0y0, x1y0]);
       const bottom = chroma.scale([x0y1, x1y1]);
-      return (dx, dy) => chroma.scale([top(dx), bottom(dx)])(dy).hex();
+      return (dx, dy) => chroma.scale([top(dx), bottom(dx)]).mode('hcl')(dy);
     }
 
     function matrixEach(matrix, fn, y = 0) {
@@ -20,7 +20,12 @@ angular.module('game')
       const interpolate = biScale(topLeft, topRight, bottomLeft, bottomRight);
 
       matrixEach(matrix, (cell, x, y) => {
-        cell.color = interpolate(x/(width - 1), y/(height - 1));
+        cell.color = interpolate(x/(width - 1), y/(height - 1)).hex();
+      });
+
+      $log.debug({
+        message: 'matrix with interpolated gradient',
+        matrix,
       });
 
       return matrix;
