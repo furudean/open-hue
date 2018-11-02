@@ -1,9 +1,9 @@
 language: node_js
 node_js:
- - "node"
+ - node
 script:
-  - "npm test"
-  - "npm run build:prod"
+  - npm test
+  - npm run build:prod
 git:
   depth: false
 cache:
