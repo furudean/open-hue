@@ -1,3 +1,11 @@
 language: node_js
 node_js:
  - "node"
+script:
+  - "npm test"
+  - "npm run build:prod"
+git:
+  depth: false
+cache:
+  directories:
+    - node_modules
