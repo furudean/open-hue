@@ -23,14 +23,15 @@ const modRewrite = require('connect-modrewrite');
 const embedTemplates = require('gulp-angular-embed-templates');
 
 const paths = {
-  app: 'app/',
-  dist: 'dist/',
-  index: ['app/index.html'],
+  appDir: 'app/',
+  distDir: 'dist/',
+  staticDir: 'dist/static/',
+  indexFile: ['app/index.html'],
   templates: ['app/components/**/*.html'],
   scripts: ['app/**/*.js', '**/**/!*.spec.js'],
   stylesBase: ['app/app.scss'],
   styles: ['app/views/**/*.scss', 'app/components/**/*.scss'],
-  other: ['assets/**'],
+  static: ['assets/**'],
   vendorScripts: [
     /*
       this is a big sin. i would prefer not to use all the polyfills
@@ -54,7 +55,7 @@ const paths = {
 function startServer(done) {
   bs.init({
     server: {
-      baseDir: paths.dist,
+      baseDir: paths.distDir,
       middleware: [
         modRewrite([
           '!\\.\\w+$ /index.html [L]', // support html5mode
@@ -89,19 +90,19 @@ function notifyServer(done) {
  * Deletes everything in the output directory
  * @returns {Promise<string[]>}
  */
-const clean = () => del([paths.dist]);
+const clean = () => del([paths.distDir]);
 
 /**
  * Deletes empty folders in the output directory
  * @returns {void}
  */
-const removeEmpty = () => deleteEmpty(paths.dist);
+const removeEmpty = () => deleteEmpty(paths.distDir);
 
 /**
  * Minifies and moves `paths.index` to dist/
  */
 const html = {
-  prod: () => gulp.src(paths.index)
+  prod: () => gulp.src(paths.indexFile)
     .pipe(plumber())
     .pipe(htmlmin({ // minify HTML
       collapseWhitespace: true,
@@ -114,9 +115,9 @@ const html = {
       removeRedundantAttributes: false,
       collapseBooleanAttributes: false,
     }))
-    .pipe(gulp.dest(paths.dist)),
-  dev: () => gulp.src(paths.index)
-    .pipe(gulp.dest(paths.dist)),
+    .pipe(gulp.dest(paths.distDir)),
+  dev: () => gulp.src(paths.indexFile)
+    .pipe(gulp.dest(paths.distDir)),
 };
 
 /**
@@ -136,7 +137,7 @@ const scripts = {
       .pipe(concat('scripts.js')) // concat into one file
       .pipe(terser({mangle: false})) // minify
       .pipe(sourcemaps.write('.')) // write sourcemap files
-      .pipe(gulp.dest(paths.dist)),
+      .pipe(gulp.dest(paths.staticDir)),
   dev: () => gulp.src(paths.scripts)
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -149,7 +150,7 @@ const scripts = {
     .pipe(angularFilesort())
     .pipe(concat('scripts.js'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.dist)),
+    .pipe(gulp.dest(paths.staticDir)),
 };
 
 /**
@@ -161,7 +162,7 @@ const styles = {
     const injectOptions = {
       transform: function(filePath) {
         // remove app/ prefix
-        filePath = filePath.replace(paths.app + 'app/', '');
+        filePath = filePath.replace(paths.appDir + 'app/', '');
         // allow import of .css files by stripping the file extension
         filePath = filePath.replace('.css', '');
         return `@import "${filePath}";`;
@@ -172,8 +173,9 @@ const styles = {
     };
     const toInject = gulp.src([...paths.vendorStyles, ...paths.styles]);
 
-    /* the order here is important. we want to OVERWRITE our vendor rules with
-       our defined styles, not the other way around
+    /*
+      the order here is important. we want to OVERWRITE our vendor rules with
+      our defined styles, not the other way around
     */
     return gulp.src(paths.stylesBase)
       .pipe(plumber())
@@ -187,12 +189,12 @@ const styles = {
       .pipe(autoprefixer()) // add vendor prefixes
       .pipe(cssnano()) // minify
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(paths.dist));
+      .pipe(gulp.dest(paths.staticDir));
   },
   dev: () => {
     const injectOptions = {
       transform: function(filePath) {
-        filePath = filePath.replace(paths.app + '/app/', '');
+        filePath = filePath.replace(paths.appDir + '/app/', '');
         filePath = filePath.replace('.css', '');
         return `@import "${filePath}";`;
       },
@@ -212,7 +214,7 @@ const styles = {
       }))
       .pipe(concat('style.css'))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(paths.dist))
+      .pipe(gulp.dest(paths.staticDir))
       .pipe(bs.stream()); // let browsersync know that we updated the styles
   },
 };
@@ -232,21 +234,21 @@ const vendorScripts = {
       },
     }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.dist)),
+    .pipe(gulp.dest(paths.staticDir)),
   dev: () => gulp.src(paths.vendorScripts)
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(concat('vendors.js'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.dist)),
+    .pipe(gulp.dest(paths.staticDir)),
 };
 
 /**
  * Copies files in `paths.other` to dist directly
  * @returns {void}
  */
-const other = () => gulp.src(paths.other, {cwd: paths.app + '**'})
-  .pipe(gulp.dest(paths.dist));
+const other = () => gulp.src(paths.static, {cwd: paths.appDir + '**'})
+  .pipe(gulp.dest(paths.staticDir));
 
 /**
  * Adds revisions to end of filenames and rewrites references to those files
@@ -255,17 +257,17 @@ const other = () => gulp.src(paths.other, {cwd: paths.app + '**'})
  */
 const revision = (done) => {
   const notIndex = filter(
-    [paths.dist + '**', `!${paths.dist}index.html`],
+    [paths.distDir + '**', `!${paths.distDir}index.html`],
     {restore: true});
 
-  gulp.src(paths.dist + '**')
+  gulp.src(paths.distDir + '**')
     .pipe(plumber())
     .pipe(notIndex)
     .pipe(rev()) // rename all files except index.html
     .pipe(revDelete()) // delete original files
     .pipe(notIndex.restore)
     .pipe(revRewrite()) // substitute in new filenames
-    .pipe(gulp.dest(paths.dist));
+    .pipe(gulp.dest(paths.distDir));
 
   done();
 };
@@ -294,7 +296,7 @@ const watch = () => {
     bs.notify('CSS updated!');
     done();
   }));
-  gulp.watch(paths.other, gulp.series(notifyServer, other));
+  gulp.watch(paths.static, gulp.series(notifyServer, other));
 };
 
 const serve = gulp.series(build.dev, startServer, watch);
