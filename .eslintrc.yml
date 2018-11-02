@@ -1,29 +1,15 @@
-parser: babel-eslint
-
 env:
-  browser: true
   node: true
   es6: true
 
+root: true
+
 plugins:
 - es-beautifier
-- angular
-- compat
 
 extends: 
 - eslint:recommended
 - google
-- plugin:angular/johnpapa
-- plugin:compat/recommended
-
-globals:
-  angular: true
-  chroma: true
-
-settings:
-  polyfills:
-  - asyncawait
-  - promises
 
 rules:
   indent:
@@ -39,20 +25,9 @@ rules:
   valid-jsdoc:
   - error
   - requireReturnDescription: false
-  no-invalid-this:
-  - off
   require-jsdoc:
   - off
   no-unused-vars:
   - error
-  no-sparse-arrays:
-  - off
-
-  # angular.js
-  angular/file-name:
-  - error
-  - typeSeparator: dot
-    nameStyle: dash
-    ignoreTypeSuffix: true
-  angular/controller-name:
+  no-console:
   - off

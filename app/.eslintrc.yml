@@ -1,0 +1,52 @@
+parser: babel-eslint
+
+env:
+  browser: true
+  es6: true
+
+plugins:
+- es-beautifier
+- angular
+- compat
+
+extends: 
+- eslint:recommended
+- google
+- plugin:angular/johnpapa
+- plugin:compat/recommended
+
+globals:
+  angular: true
+  chroma: true
+
+settings:
+  polyfills:
+  - asyncawait
+  - promises
+
+rules:
+  indent:
+  - error
+  - 2
+  - MemberExpression: off
+  max-len:
+  - error
+  - code: 120
+  semi:
+  - error
+  - always
+  valid-jsdoc:
+  - error
+  - requireReturnDescription: false
+  require-jsdoc:
+  - off
+  no-unused-vars:
+  - error
+  no-invalid-this:
+  - off
+
+  angular/file-name:
+  - error
+  - typeSeparator: dot
+    nameStyle: dash
+    ignoreTypeSuffix: true
