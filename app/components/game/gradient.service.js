@@ -1,9 +1,13 @@
 angular.module('game')
   .factory('gradientService', ($log) => {
-    function biScale(x0y0, x1y0, x0y1, x1y1) {
-      const top = chroma.scale([x0y0, x1y0]);
-      const bottom = chroma.scale([x0y1, x1y1]);
-      return (dx, dy) => chroma.scale([top(dx), bottom(dx)]).mode('hcl')(dy);
+    function biLerpColor(x0y0, x1y0, x0y1, x1y1, colorspace = 'rgb') {
+      const top = chroma.scale([x0y0, x1y0])
+        .mode(colorspace);
+      const bottom = chroma.scale([x0y1, x1y1])
+        .mode(colorspace);
+
+      return (dx, dy) => chroma.scale([top(dx), bottom(dx)])
+        .mode(colorspace)(dy);
     }
 
     function matrixEach(matrix, fn, y = 0) {
@@ -17,7 +21,7 @@ angular.module('game')
       const width = matrix[0].length;
       const height = matrix.length;
       const {topLeft, topRight, bottomLeft, bottomRight} = corners;
-      const interpolate = biScale(topLeft, topRight, bottomLeft, bottomRight);
+      const interpolate = biLerpColor(topLeft, topRight, bottomLeft, bottomRight, 'lab');
 
       matrixEach(matrix, (cell, x, y) => {
         cell.color = interpolate(x/(width - 1), y/(height - 1)).hex();
