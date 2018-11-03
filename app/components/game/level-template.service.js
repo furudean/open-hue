@@ -15,17 +15,7 @@ angular.module('game')
         },
       },
       {
-        name: 'oyasumi',
-        matrix: 'x4ox\n'.repeat(6),
-        corners: {
-          topLeft: '#3F0039',
-          topRight: '#820046',
-          bottomLeft: '#B10D45',
-          bottomRight: '#E05917',
-        },
-      },
-      {
-        name: 'lake',
+        name: 'second steps',
         matrix:
           '6x\n' +
           'x4ox\n'.repeat(2) +
@@ -37,6 +27,19 @@ angular.module('game')
           topRight: '#5AB1BB',
           bottomLeft: '#8FCB9B',
           bottomRight: '#9ee2ea',
+        },
+      },
+      {
+        name: 'dudouo',
+        matrix:
+          '6x\n' +
+          'x4ox\n'.repeat(4) +
+          '6x\n',
+        corners: {
+          topLeft: '#590050',
+          topRight: '#B5D6B2',
+          bottomLeft: '#B10D45',
+          bottomRight: '#E05917',
         },
       },
     ];
