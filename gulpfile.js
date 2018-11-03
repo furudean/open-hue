@@ -58,7 +58,7 @@ function startServer(done) {
       baseDir: paths.distDir,
       middleware: [
         modRewrite([
-          '!\\.\\w+$ /index.html [L]', // support html5mode
+          '^[^\\.]*$ /index.html [L]', // support html5mode
         ]),
       ],
     },
