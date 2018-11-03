@@ -5,7 +5,7 @@
   cursor: move;
   cursor: grab;
   will-change: transform;
-  transition: transform 300ms $standard-easing; // transition when dropped
+  transition: transform 300ms $standard-easing; // dropped transition
 
   &--locked {
     cursor: auto;
@@ -26,15 +26,10 @@
       transform: scale(0);
     }
   }
-  
-
-  &:not(&--locked) .tile__tick {
-    visibility: hidden;
-  }
 }
 
 .tile__background {
-  transition: transform 300ms $standard-easing;
+  transition: transform 350ms $standard-easing; // drag + hide transition
   transform: scale(1);
   will-change: transform;
   position: absolute;
@@ -55,10 +50,15 @@
   right: 0;
   bottom: 0;
 
+  .tile:not(.tile--locked) > & {
+    visibility: hidden;
+  }
+
   div {
-    $size: 5px;
+    $size: 4px;
     background: $black-color;
     width: $size;
     height: $size;
+    border-radius: 100%;
   }
 }

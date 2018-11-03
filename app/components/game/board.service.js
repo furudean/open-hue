@@ -6,7 +6,7 @@ angular.module('game')
           tile.isHidden = hidden;
           $timeout(() => {
             resolve();
-          }, 300); // wait for tween before resolving
+          }, 350); // wait for tween before resolving
         }, delay);
       });
     }
@@ -53,11 +53,21 @@ angular.module('game')
         };
       }
 
-      async hide(tweenTime = 20, filterFn) {
+      get draggableTiles() {
+        return this.tiles
+          .map((tile) => tile.locked === false);
+      }
+
+      get lockedTiles() {
+        return this.tiles
+          .map((tile) => tile.locked === true);
+      }
+
+      async hide(tweenTime, filterFn) {
         return _setHiddenBoard(this.tiles, true, tweenTime, filterFn);
       }
 
-      async show(tweenTime = 20, filterFn) {
+      async show(tweenTime, filterFn) {
         return _setHiddenBoard(this.tiles, false, tweenTime, filterFn);
       }
 
@@ -82,7 +92,7 @@ angular.module('game')
           array[j] = temp;
         }
 
-        const indicesToShuffle = angular.copy(this.tiles)
+        const indicesToShuffle = this.tiles
           .map((tile, i) => tile.isLocked ? null : i)
           .filter((i) => i !== null);
 
