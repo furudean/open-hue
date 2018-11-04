@@ -25,7 +25,9 @@ angular.module('game')
         this.index = index;
         this.isLocked = isLocked;
         this.isHidden = false;
-        this.style = {};
+        this.style = {
+          background: this.color,
+        };
       }
 
       async hide(delay) {

@@ -1,7 +1,6 @@
 <div class="tile" ng-class="{ 'tile--locked': $ctrl.tile.isLocked, 'tile--hidden': $ctrl.tile.isHidden }"
-  ng-style="::$ctrl.tile.style" ng-drag="::$ctrl.isDraggable" ng-drop="::$ctrl.isDraggable" 
-  ng-drag-data="::$ctrl.tile" ng-drop-success="::$ctrl.dropFn($ctrl.index, $data)">
-  <div class="tile__background" ng-style="{ background: $ctrl.tile.color }"></div>
+  ng-style="$ctrl.tile.style" ng-drag="$ctrl.isDraggable" ng-drop="$ctrl.isDraggable" 
+  ng-drag-data="$ctrl.tile" ng-drop-success="$ctrl.dropFn($ctrl.index, $data)">
   <div class="tile__tick">
     <div></div>
   </div>
