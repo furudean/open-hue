@@ -290,7 +290,8 @@ const build = {
 };
 
 const watch = () => {
-  gulp.watch(paths.html, gulp.series(notifyServer, scripts.dev, reloadServer));
+  gulp.watch(paths.templates, gulp.series(notifyServer, scripts.dev, reloadServer));
+  gulp.watch(paths.indexFile, gulp.series(notifyServer, html.dev, reloadServer));
   gulp.watch('app/**/*.@(js|ts)', gulp.series(notifyServer, scripts.dev, reloadServer));
   gulp.watch('app/**/*.@(scss|css)', gulp.series(notifyServer, styles.dev, (done) => {
     bs.notify('CSS updated!');
