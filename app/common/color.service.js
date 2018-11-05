@@ -10,7 +10,14 @@ angular.module('app')
       return (dx, dy) => scale(top(dx), bottom(dx))(dy);
     }
 
+    function getAverageColor(...args) {
+      const interpolate = biLerpColor(...args);
+
+      return interpolate(0.5, 0.5).hex();
+    }
+
     return {
       biLerpColor,
+      getAverageColor,
     };
   });
