@@ -82,18 +82,19 @@ angular.module('game')
     function _setHiddenTile(tile, hidden, delay) {
       return new Promise((resolve, reject) => {
         $timeout(() => {
+          $log.info(delay);
           tile.isHidden = hidden;
           $timeout(() => {
             resolve();
-          }, 350); // wait for tween before resolving
+          }, 300, false); // wait for tween before resolving
         }, delay);
       });
     }
 
-    function _setHiddenBoard(tiles, hidden, tweenTime, filterFn = () => true) {
+    function _setHiddenBoard(tiles, hidden, delay, filterFn = () => true) {
       const hiddenPromises = tiles
         .filter(filterFn)
-        .map((tile, i) => _setHiddenTile(tile, hidden, i * tweenTime));
+        .map((tile, i) => _setHiddenTile(tile, hidden, i * delay));
 
       return Promise.all(hiddenPromises);
     }

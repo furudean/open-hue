@@ -20,16 +20,16 @@ angular.module('game')
     async function init() {
       const template = levelTemplateService.templates[$stateParams.id - 1];
       const notLockedFilter = (tile) => tile.isLocked === false;
+      const delay = 40;
 
       vm.board = board = new GameBoard(template);
-      const tweenDelay = 1200 / board.draggableTiles.length;
 
       await sleep(2000);
 
-      await board.hide(tweenDelay, notLockedFilter);
+      await board.hide(delay, notLockedFilter);
 
       board.shuffle();
-      board.show(tweenDelay, notLockedFilter);
+      board.show(delay, notLockedFilter);
     }
 
     init();
