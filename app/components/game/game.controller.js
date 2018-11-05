@@ -1,7 +1,8 @@
 angular.module('game')
-  .controller('GameController', function(boardService, levelTemplateService, $log, $timeout, $window, $stateParams) {
+  .controller('GameController', function(gameBoardService, levelTemplateService, $log, $timeout, $window,
+    $stateParams) {
     const vm = this;
-    const {Board} = boardService;
+    const {GameBoard} = gameBoardService;
     let board;
 
     const sleep = async (ms) => new Promise((resolve) => $timeout(resolve, ms));
@@ -20,7 +21,7 @@ angular.module('game')
       const template = levelTemplateService.templates[$stateParams.id - 1];
       const notLockedFilter = (tile) => tile.isLocked === false;
 
-      vm.board = board = new Board(template);
+      vm.board = board = new GameBoard(template);
       const tweenDelay = 1200 / board.draggableTiles.length;
 
       await sleep(2000);

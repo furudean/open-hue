@@ -7,11 +7,15 @@ angular.module('app')
       }
     }
 
-    function gradientize(matrix, corners) {
+    function gradientize(matrix, {topLeft, topRight, bottomLeft, bottomRight}) {
       const width = matrix[0].length;
       const height = matrix.length;
-      const {topLeft, topRight, bottomLeft, bottomRight} = corners;
-      const interpolate = colorService.biLerpColor(topLeft, topRight, bottomLeft, bottomRight, 'lab');
+
+      const interpolate = colorService.biLerpColor(
+        topLeft, topRight,
+        bottomLeft, bottomRight,
+        'lab'
+      );
 
       matrixEach(matrix, (cell, x, y) => {
         cell.color = interpolate(x/(width - 1), y/(height - 1)).hex();

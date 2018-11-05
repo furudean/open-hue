@@ -1,4 +1,4 @@
-angular.module('game')
+angular.module('app')
   .factory('matrixParserService', ($log) => {
     const toObject = (element) => ({
       isLocked: element === 'x',

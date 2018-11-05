@@ -1,32 +1,14 @@
 angular.module('game')
-  .factory('boardService', (gradientService, matrixParserService, $timeout, $log) => {
-    function _setHiddenTile(tile, hidden, delay) {
-      return new Promise((resolve, reject) => {
-        $timeout(() => {
-          tile.isHidden = hidden;
-          $timeout(() => {
-            resolve();
-          }, 350); // wait for tween before resolving
-        }, delay);
-      });
-    }
+  .factory('gameBoardService', (boardService, matrixParserService, $timeout, $log) => {
+    const {Board, Tile} = boardService;
 
-    function _setHiddenBoard(tiles, hidden, tweenTime, filterFn = () => true) {
-      const hiddenPromises = tiles
-        .filter(filterFn)
-        .map((tile, i) => _setHiddenTile(tile, hidden, i * tweenTime));
-
-      return Promise.all(hiddenPromises);
-    }
-
-    class Tile {
+    class GameTile extends Tile {
       constructor(color, index, isLocked) {
-        this.color = color;
-        this.index = index;
-        this.isLocked = isLocked;
+        super(color, index, isLocked);
+
         this.isHidden = false;
         this.style = {
-          background: this.color,
+          background: color,
         };
       }
 
@@ -39,16 +21,11 @@ angular.module('game')
       }
     }
 
-    class Board {
+    class GameBoard extends Board {
       constructor(template) {
-        const matrix = matrixParserService.parse(template.matrix);
-        const coloredMatrix = gradientService.gradientize(matrix, template.corners);
-        const tiles = toTiles(coloredMatrix);
+        super(template, GameTile);
 
         this.name = template.name;
-        this.tiles = tiles;
-        this.width = matrix[0].length;
-        this.height = matrix.length;
         this.style = {
           gridTemplateRows: `repeat(${this.height}, 1fr)`,
           gridTemplateColumns: `repeat(${this.width}, 1fr)`,
@@ -102,10 +79,26 @@ angular.module('game')
       }
     }
 
-    const toTiles = (template) => template.flat()
-      .map(({color, isLocked}, index) => new Tile(color, index, isLocked));
+    function _setHiddenTile(tile, hidden, delay) {
+      return new Promise((resolve, reject) => {
+        $timeout(() => {
+          tile.isHidden = hidden;
+          $timeout(() => {
+            resolve();
+          }, 350); // wait for tween before resolving
+        }, delay);
+      });
+    }
+
+    function _setHiddenBoard(tiles, hidden, tweenTime, filterFn = () => true) {
+      const hiddenPromises = tiles
+        .filter(filterFn)
+        .map((tile, i) => _setHiddenTile(tile, hidden, i * tweenTime));
+
+      return Promise.all(hiddenPromises);
+    }
 
     return {
-      Board,
+      GameBoard,
     };
   });
