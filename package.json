@@ -17,11 +17,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/c-bandy/gradient-game.git"
   },
-  "keywords": [
-    "angular.js",
-    "game",
-    "i love hue"
-  ],
+  "private": true,
   "author": "Cassidy Bandy",
   "license": "Apache-2.0",
   "bugs": {
