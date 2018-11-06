@@ -1,7 +1,7 @@
-gradient-game
+open-hue
 ===============
 
-[![Build Status](https://travis-ci.com/c-bandy/gradient-game.svg?branch=master)](https://travis-ci.com/c-bandy/gradient-game)
+[![Build Status](https://travis-ci.com/c-bandy/open-hue.svg?branch=master)](https://travis-ci.com/c-bandy/open-hue)
 
 an open source, web based clone of '[i love hue](http://www.i-love-hue.com/)'.
 

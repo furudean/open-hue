@@ -1,5 +1,5 @@
 {
-  "name": "gradient-game",
+  "name": "open-hue",
   "version": "0.0.1",
   "description": "web based clone of 'i love hue'",
   "scripts": {
@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/c-bandy/gradient-game.git"
+    "url": "https://github.com/c-bandy/open-hue"
   },
   "private": true,
   "author": "Cassidy Bandy",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/c-bandy/gradient-game/issues"
+    "url": "https://github.com/c-bandy/open-hue/issues"
   },
-  "homepage": "https://github.com/c-bandy/gradient-game#readme",
+  "homepage": "https://hue.cass.moe",
   "browserslist": "last 2 versions, > 1%",
   "dependencies": {
     "angular": "^1.7.4",
