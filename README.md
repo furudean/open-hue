@@ -20,3 +20,12 @@ npm install
 # local development
 npm start
 ```
+
+roadmap
+--------
+
+* [ ] convert to vue.js
+* [ ] level selection
+* [ ] track completed levels
+* [ ] level editor
+* [ ] main menu
