@@ -1,0 +1,74 @@
+<template>
+  <div class="tile" v-class="{ 'tile--locked': tile.isLocked, 'tile--hidden': tile.isHidden }"
+    v-style="tile.style" ng-drag="isDraggable" ng-drop="isDraggable" 
+    ng-drag-data="tile" ng-drop-success="dropFn($ctrl.index, $data)">
+    <div class="tile__tick">
+      <div></div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { Tile } from '@/types/tile';
+
+  @Component
+  export default class DisplayTile extends Vue {
+    @Prop() private tile!: Tile;
+    @Prop() private index!: Function;
+    @Prop() private isDraggable!: boolean;
+    @Prop() private dropFn!: Function;
+  }
+</script>
+
+<style scoped lang="scss">
+  @import '@/styles/_variables.scss';
+
+  .tile {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: move;
+    cursor: grab;
+    will-change: transform;
+    transition: transform 300ms $standard-easing; // dropped transition
+
+    &--locked {
+      cursor: auto;
+    }
+
+    &.dragging {
+      transition: none; // disable transition when dragging
+      cursor: grabbing;
+    }
+
+    &--hidden {
+      pointer-events: none;
+      transform: scale(0);
+    }
+  }
+
+  .tile__tick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .tile:not(.tile--locked) > & {
+      visibility: hidden;
+    }
+
+    div {
+      $size: 4px;
+      background: $black-color;
+      width: $size;
+      height: $size;
+      border-radius: 100%;
+    }
+  }
+</style>
