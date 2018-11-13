@@ -23,5 +23,5 @@ const expand = (acc: string, curr: string) => {
 };
 
 const finalize = (element: string) => ({
-  isLocked: element === 'x'
+  isLocked: element === 'x',
 });

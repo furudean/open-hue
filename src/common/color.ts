@@ -1,5 +1,5 @@
 import chroma from 'chroma-js';
-import { Colorspace, Color } from '@/types/color'
+import { Colorspace, Color } from '@/types/color';
 
 export function biLerpColor(x0y0: Color, x1y0: Color, x0y1: Color, x1y1: Color, colorspace: Colorspace) {
   const scale = (c0: Color, c1: Color) => chroma.scale([c0, c1])

@@ -11,7 +11,7 @@ import Board from '@/components/Board.vue';
 @Component({
   components: {
     Board,
-  }
+  },
 })
 export default class Play extends Vue {}
 </script>

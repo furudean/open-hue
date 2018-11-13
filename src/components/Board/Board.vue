@@ -1,14 +1,14 @@
 <template>
-  <div class="board" v-bind:style="board.style">
-    <Tile v-repeat="tile in board.tiles" index="index" tile="tile" 
-    is-draggable="!tile.isLocked" drop-fn="$ctrl.onDrop"></Tile>
-  </div>
+<div class="board" v-bind:style="board.style">
+  <Tile v-repeat="tile in board.tiles" index="index" tile="tile"></Tile>
+</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Board } from '@/common/board';
 
-// function onDrop(i, tile0) {
+// function onDrop(i: number, tile0: Tile) {
 //   const tiles = null;
 //   const j = tiles.indexOf(tile0); // find the other index using dragged tile
 //   const tile1 = tiles[i]; // find the other tile using the dragged tile index
@@ -17,18 +17,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 //   tiles[i] = tile0;
 //   tiles[j] = tile1;
-
-//   // execute callback function
-//   tileMovedFn({
-//     tile0,
-//     tile1,
-//   });
 // }
 
 @Component
-export default class Board extends Vue {
-  @Prop() private board!: any;
-  @Prop() private tileMovedFn!: Function;
+export default class DisplayBoard extends Vue {
+  @Prop() private board?: Board;
 }
 </script>
 

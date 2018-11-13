@@ -5,8 +5,6 @@ angular.module('game')
     const {GameBoard} = gameBoardService;
     let board;
 
-    const sleep = async (ms) => new Promise((resolve) => $timeout(resolve, ms));
-
     vm.onTileMoved = function(event) {
       const isWin = board.isWin();
       if (isWin) {
