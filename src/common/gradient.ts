@@ -2,8 +2,7 @@ import { biLerpColor } from './color';
 import { Color } from '@/types/color';
 
 interface PartialTile {
-  color: Color;
-  index: number;
+  color?: Color;
   isLocked: boolean;
 }
 

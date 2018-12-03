@@ -9,14 +9,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Tile } from '@/common/tile';
+import { GameTile } from '@/common/gameTile';
 
 @Component
 export default class DisplayTile extends Vue {
-  @Prop() private tile?: Tile;
-  @Prop() private index?: number;
-  @Prop() private isDraggable?: boolean;
-  @Prop() private dropFn?: (index: number, data: any) => void;
+  @Prop() private tile!: GameTile;
+  @Prop() private index!: number;
+  @Prop() private isDraggable!: boolean;
+  // @Prop() private dropFn!: (index: number, data: any) => void;
 }
 </script>
 

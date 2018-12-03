@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Board } from '@/common/board';
+import { GameBoard } from '@/common/gameBoard';
 
 // function onDrop(i: number, tile0: Tile) {
 //   const tiles = null;
@@ -21,7 +21,7 @@ import { Board } from '@/common/board';
 
 @Component
 export default class DisplayBoard extends Vue {
-  @Prop() private board?: Board;
+  @Prop() private board!: GameBoard;
 }
 </script>
 

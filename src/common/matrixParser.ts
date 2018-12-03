@@ -1,4 +1,8 @@
-import { Matrix } from '@/types/matrix';
+interface PartialTile {
+  isLocked: boolean;
+}
+
+type Matrix = PartialTile[][];
 
 export function parse(map: string): Matrix {
   return map.split(/\n/)

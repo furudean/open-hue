@@ -3,6 +3,12 @@ import { GameTile } from './gameTile';
 import * as gradient from '@/common/gradient';
 import * as matrixParser from '@/common/matrixParser';
 import { swapIndex } from '@/common/util';
+import { Color } from '@/types/color';
+
+interface PartialTile {
+  isLocked: boolean;
+  color: Color;
+}
 
 export class GameBoard {
   get draggableTiles() {
@@ -23,7 +29,7 @@ export class GameBoard {
   constructor(template: Template) {
     const {topLeft, topRight, bottomLeft, bottomRight} = template.corners;
     const matrix = matrixParser.parse(template.map);
-    const coloredMatrix = gradient.gradientize(matrix, topLeft, topRight, bottomLeft, bottomRight);
+    const coloredMatrix = gradient.gradientize(matrix, topLeft, topRight, bottomLeft, bottomRight) as PartialTile[][];
     const tiles = coloredMatrix.flat()
       .map(({color, isLocked}, index) => new GameTile(color, isLocked, index));
 
